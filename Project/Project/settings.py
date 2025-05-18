@@ -33,6 +33,10 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://safestapesproject.onrender.com'
+]
+
 ALLOWED_HOSTS = ['52.41.36.82','localhost', '127.0.0.1', '*']
 
 SITE_ID = 1
