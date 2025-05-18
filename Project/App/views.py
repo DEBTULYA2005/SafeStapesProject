@@ -103,7 +103,7 @@ def user_signUp(request):
         print("User created successfully.")
 
         messages.success(request, "Account created successfully.")
-        return redirect("user_signIn")  # Redirect to login or other page
+        return redirect("user_signin")  # Redirect to login or other page
 
     return render(request, "user_signUp.html")
 
