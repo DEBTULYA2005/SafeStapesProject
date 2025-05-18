@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Formal Letter</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      font-size: 18px;           /* ↑ larger base text */
+      line-height: 1.6;          /* ↑ slightly more breathing room */
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
+    .letter-container {
+      width: 650px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .sender-info p {
+      margin: 4px 0;
+      font-size: 20px;           /* ↑ slightly larger for sender info */
+    }
+    .date {
+      font-size: 18px;           /* ↑ match body */
+      text-align: right;
+      margin-bottom: 30px;
+    }
+    .salutation p {
+      font-size: 20px;           /* ↑ larger for salutation */
+      margin-bottom: 20px;
+    }
+    .body p {
+      font-size: 18px;           /* ↑ match body */
+      margin-bottom: 30px;
+      text-align: justify;
+    }
+    .closing p {
+      font-size: 20px;           /* ↑ larger closing */
+      margin-bottom: 10px;
+    }
+    .signature {
+      font-size: 22px;           /* ↑ signature emphasis */
+      font-style: italic;
+    }
+    .footer {
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+      font-size: 16px;           /* ↑ small footer */
+      color: #666;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="letter-container">
+    
+    <!-- Sender Info -->
+    <div class="sender-info">
+      <p>{{ Contact_name }}</p>
+      <p>{{ Contact_email }}</p>
+      <p>{{ Contact_phone }}</p>
+    </div>
+    
+    <!-- Date -->
+    <div class="date">
+      {% now "F j, Y" %}
+    </div>
+    
+    <!-- Salutation -->
+    <div class="salutation">
+      <p>Dear Admin,</p>
+    </div>
+    
+    <!-- Body -->
+    <div class="body">
+      <p>
+        {{ Contact_message }}
+      </p>
+    </div>
+    
+    <!-- Closing -->
+    <div class="closing">
+      <p>Best Regards,</p>
+      <p class="signature">{{ Contact_name }}</p>
+    </div>
+    
+    <!-- Footer (optional) -->
+    <div class="footer">
+      <p>This letter was generated automatically from the contact form submission.</p>
+    </div>
+    
+  </div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps | OTP</title>
+    <link rel="stylesheet" href="{% static 'CSS/user_Otp.css' %}">
+    <link rel="icon" href="{% static 'assets/images/Safe_step_logo_-removebg-preview.png' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+     
+    <!-- Custom Alert -->
+    <div id="customAlert" class="alert-box">
+        <div class="alert-content">
+           <div class="alertbox-left">
+            <h2 id="alert-title"></h2>
+            <p id="alert-summary"></p>
+            <button id="confirmBtn">OK</button>
+           </div>
+
+            <div class="alertbox-right">
+                <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="">
+            </div>
+        </div>
+     </div>
+
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video" preload="auto">
+            {% comment %} <source src="{% static 'assets/videos/hands.mp4' %}" type="video/mp4"> {% endcomment %}
+            <!-- Your browser does not support the video  -->
+        </video>
+    </div>
+   
+
+    <!-- Wrapper for the form -->
+    <div class="wrapper">
+        <div class="close_panel">
+            <a href="{% url 'user_signIn' %}"><button class="close"><i class="fa-solid fa-xmark"></i></button></a>
+        </div>
+        <form method="POST" action="{% url 'verify_otp' %}" class="otp-field" id="otp-form">
+            {% csrf_token %}
+            <h1>ENTER OTP</h1>
+            <p>We have sent a verification code of your registered Email {{email}}</p>
+            <div class="input-box">
+                <input type="number" maxlength="1" id="otp1">
+                <input type="number" maxlength="1" id="otp2">
+                <input type="number" maxlength="1" id="otp3">
+                <input type="number" maxlength="1" id="otp4">
+                <input type="number" maxlength="1" id="otp5">
+                <input type="number" maxlength="1" id="otp6">
+            </div>
+        
+            <!-- Hidden field to store combined OTP -->
+            <input type="hidden" name="otp" id="otp-hidden">
+
+            <button type="submit">Verify OTP</button>
+            <button type="button" id="resend">Resend</button>
+            
+        </form>
+    </div>
+
+    <script src="JavaScript/user_Otp.js" defer></script>
+
+    <script>
+        // function redirectToProfile(event) {
+        //     event.preventDefault(); // Prevent form submission
+        //     window.location.href = "forgot2.html"; // Redirect to the desired page
+        // }
+    </script>
+    <script>
+        const inputs = [
+            document.getElementById("otp1"),
+            document.getElementById("otp2"),
+            document.getElementById("otp3"),
+            document.getElementById("otp4"),
+            document.getElementById("otp5"),
+            document.getElementById("otp6")
+        ];
+    
+        // Move to next input after entering a digit
+        inputs.forEach((input, index) => {
+            input.addEventListener("input", () => {
+                if (input.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+    
+            // Handle backspace to go back
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && input.value === "" && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+    
+        // Combine OTP on form submit
+        document.getElementById("otp-form").addEventListener("submit", function(event) {
+            const otp = inputs.map(input => input.value).join("");
+            document.getElementById("otp-hidden").value = otp;
+        });
+    
+        // Auto-focus first box on page load
+        window.addEventListener("DOMContentLoaded", () => {
+            inputs[0].focus();
+        });
+    </script>
+    
+</body>
+
+</html>

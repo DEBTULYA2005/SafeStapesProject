@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps - Admin Dashboard</title>
+
+    <!-- material icons library -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="{% static 'CSS/admin_panel.css' %}">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Routing Machine -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+    <!-- Nominatim Geocoder -->
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <style>
+        .leaflet-control-attribution {
+          display: none !important;
+        }
+
+        .leaflet-routing-container {
+            display: none !important;
+        }
+    </style>
+
+</head>
+
+<body class="light-theme">
+
+    <div class="container">
+        <aside>
+            <div class="top">
+                <div class="close" id="colse-btn">
+                    <span class="material-icons-sharp">close</span>
+                </div>
+                <div class="logo">
+                    <img src="{% static 'assets/images/Safe_step.jpg' %}" alt="safe_steps!">
+                    <h2>SAFE<span class="safety">STEPS</span></h2>
+                </div>
+
+            </div>
+
+            <div class="sidebar">
+                <a href="#" class="menu-item active" onclick="showSection('dashboard')">
+                    <span class="material-icons-sharp">dashboard</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('members')">
+                    <span class="material-icons-sharp">group</span>
+                    <h3>Members</h3>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('messages')">
+                    <span class="material-icons-sharp">mail</span>
+                    <h3>Messages</h3>
+
+                    <!-- add messages  -->
+                    <span class="message-count">26</span>
+                </a>
+                <!-- <a href="#" class="menu-item" onclick="showSection('reviews')">
+                    <span class="material-icons-sharp">reviews</span>
+                    <h3>Reviews</h3>
+                </a> -->
+                <a href="{% url 'logout_admin' %}">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>SignOut</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- END of aside -->
+
+        <main>
+            <div class="top">
+                <h1 class="header-title">Hello, {{ admin.full_name }}</h1>
+                <div class="date-time">
+                    <h1 id="current-date"></h1>
+                    <h1 id="current-time"></h1>
+                </div>
+            </div>
+            <!-- <div class="date">
+                <input type="date">
+            </div> -->
+
+            <div class="main-content">
+
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="content-section active">
+                    <h3 class="section-title">Dashboard Overview</h3>
+                    <div class="stats">
+                        <div class="stat-card">
+                            <p>Total Members</p>
+                            <h3>{{ members_count }}</h3>
+                        </div>
+                        <div class="stat-card"> 
+                            <p>Total Users</p>
+                            <h3>{{ users_count }}</h3>
+                        </div>
+                        <!-- <div class="stat-card">
+                            <p>Pending Reviews</p>
+                            <h3>0</h3>
+                        </div> -->
+                    </div>
+                    <div class="activity">
+                        <h4>Recent Activity</h4>
+                        <ul>
+                            {% for act in recent_activities %}
+                                <li>{{ act.description }} ({{ act.timestamp|date:"M d, Y H:i" }})</li>
+                            {% empty %}
+                                <li>No recent activity.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Members Section -->
+                <div id="members" class="content-section">
+                    <h3 class="section-title">Manage Members</h3>
+                    <div class="button-view">
+                        <button class="btn btn-primary" id="addMember" onclick="showSection('new-member')">
+                            Add New Member
+                        </button>
+                        <button class="btn btn-primary" id="addMember" onclick="showSection('showMap')">
+                            Map
+                        </button>
+                    </div>
+                    <div class="table-scrollbar">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Ph.</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in members %}
+                                <tr>
+                                    <td>SS{{ m.id }}.R</td>
+                                    <td>{{ m.full_name }}</td>
+                                    <td>{{ m.email }}</td>
+                                    <td>{{ m.phone }}</td>
+                                    <td>Active</td>
+                                    <td> 
+                                        <button class="btn btn-primary"><a href="{% url 'delete_member' m.id %}">Edit</a></button>
+                                        <button class="btn btn-danger"><a href="{% url 'delete_member' m.id %}">Delete</a></button>
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+                <!-- add new members -->
+                <div id="new-member" class="content-section">
+                    <h3 class="section-title">Add Members</h3>
+                    <form enctype="multipart/form-data" method="post" action="{% url 'add_member' %}" class="member-form" id="addMemberForm">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Email</label>
+                                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" name="full_name" placeholder="Enter your name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="number">Ph Number</label>
+                                <input type="number" id="number" name="phone" placeholder="Enter your number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="profile_pic">Profile Picture</label>
+                                <input type="file" accept="image/*" id="profile_pic" name="photo" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" placeholder="Enter Password"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" name="re_password"
+                                    placeholder="Enter Confirm Password" required> 
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="showSection('members')">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Save Member
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Add user and member maps -->
+                <div id="showMap" class="content-section">
+                    <h3 class="section-title">Current Locations</h3>
+                    <div class="locationDiv">
+                        <div class="map">
+                            <div class="location" id="LUser">
+                                <div id="userMap"></div>
+                                <h2>User Location</h2>
+                            </div>
+                            <span class="material-icons-sharp connect">
+                                sync_alt
+                                </span>
+                            <div class="location" id="LMember">
+                                <div id="memberMap"></div>
+                                <h2>Member Location</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Messages Section -->
+                <div id="messages" class="content-section">
+                    <h3 class="section-title">Messages</h3>
+                    <div>
+                        <button class="btn btn-primary">Inbox (12)</button>
+                        <button class="btn">Archived</button>
+                        <!-- <button class="btn">Spam</button> -->
+                    </div>
+
+                    <div class="table-scrollbar">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for activity in message_activities %}
+                                <tr>
+                                    <td>{{ activity.user.full_name }}</td>
+                                    <td>{{ activity.description }}</td>
+                                    <td>{{ activity.timestamp }}</td>
+                                    <td>
+                                        <button class="btn btn-primary">Reply</button>
+                                        <button class="btn">Archive</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Reviews Section -->
+                <!-- <div id="reviews" class="content-section">
+                    <h3 class="section-title">Customer Reviews</h3>
+                    <div>
+                        <button class="btn btn-primary">All Reviews</button>
+                        <button class="btn">Pending (5)</button>
+                        <button class="btn">Approved</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>★★★★☆ (4/5)</td>
+                                <td>Great service, but slow response.</td>
+                                <td>2023-10-18</td>
+                                <td>Approved</td>
+                                <td>
+                                    <button class="btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Jane Smith</td>
+                                <td>★★★★★ (5/5)</td>
+                                <td>Amazing experience!</td>
+                                <td>2023-10-17</td>
+                                <td>Pending</td>
+                                <td>
+                                    <button class="btn btn-primary">Approve</button>
+                                    <button class="btn btn-danger">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> -->
+
+
+
+
+            </div>
+        </main>
+
+        <!-- END OF MAIN -->
+        <div class="right">
+            <div class="top">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">menu</span>
+                </button>
+                <div class="theme-toggler">
+                    <span class="material-icons-sharp active">light_mode</span>
+                    <span class="material-icons-sharp">dark_mode</span>
+                </div>
+                <div class="profile">
+                    <div class="info">
+                        <p><b>{{ admin.full_name }}</b></p>
+                        <small class="text-muted">Admin</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="{{ admin.photo.url }}" alt="Profile Photo" onerror="this.src='{% static 'assets/images/no_user.jpg' %}'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'JavaScript/admin_panel.js' %}"></script>
+
+
+    
+
+    {% comment %} <script>
+        setInterval(function(){
+          window.location.reload();
+        }, 50000); // 50 seconds
+    </script> {% endcomment %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userLat = 28.6139;
+            const userLng = 77.2090;
+            const memberLat = 19.0760;
+            const memberLng = 72.8777;
+        
+            const userMap = L.map('userMap').setView([userLat, userLng], 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(userMap);
+            L.marker([userLat, userLng]).addTo(userMap).bindPopup("User Location");
+        
+            const memberMap = L.map('memberMap').setView([memberLat, memberLng], 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(memberMap);
+            L.marker([memberLat, memberLng]).addTo(memberMap).bindPopup("Member Location");
+        
+            // Fix map sizing if hidden at load
+            setTimeout(() => {
+                userMap.invalidateSize();
+                memberMap.invalidateSize();
+            }, 300);
+        });
+    </script>
+    
+
+</body>
+
+</html>

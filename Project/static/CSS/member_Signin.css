@@ -1,0 +1,381 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    user-select: none;
+
+}
+
+:root {
+    --primary-color: orangered;
+    --secondary-color: #080808;
+    --text-color: #ffffffc8;
+    --background-color: #181818;
+    --background-color2: #18181800;
+    --card-color: #262626;
+}
+
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Left Content (Existing Banner) */
+.banner {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    background-color: rgb(31, 31, 31);
+}
+
+.slide img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.slide .left-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.left-info .blur-left {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.146);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.blur-left h1 {
+    font-size: 250px;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 0 0 10px rgba(255, 255, 255, .5);
+}
+
+.left-info .content {
+    position: absolute;
+    left: 10%;
+    bottom: 8%;
+    color: var(--text-color);
+}
+
+.content h3 {
+    font-size: 20px;
+}
+
+.content p {
+    font-size: 16px;
+    margin: 10px 0 15px;
+}
+
+.content .btn {
+    display: inline-block;
+    padding: 13px 28px;
+    background: var(--text-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgb(0, 0, 0);
+    font-size: 16px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.5s ease;
+}
+
+.content .btn:hover {
+    background: orangered;
+    color: #fff;
+    border: 2px solid var(--primary-color);
+    transform: translateY(-10px);
+}
+
+.content .btn:active {
+    transform: translateY(5px);
+}
+
+/* Right Panel (Sign-In) */
+.signin-panel {
+    width: 50%;
+    background-color: var(--card-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.signin-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.signin-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.signin-header h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.signin-header p {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.signin-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.signin-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.signin-form input {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+
+
+.signin-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: rgba(255, 69, 0, 0.1);
+}
+
+
+
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.remember-me {
+    display: flex;
+    /* margin-bottom: 1em; */
+    /* align-items: center; */
+}
+
+.remember-me input {
+    width: auto;
+    margin-bottom: 0.5em;
+    margin-right: 5px;
+    accent-color: orangered;
+}
+
+.forgot-password a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.forgot-password a:hover{
+    text-decoration: underline;
+}
+
+
+
+
+
+
+.signin-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.signin-btn:hover {
+    background-color: #e63e00;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 69, 0, 0.3);
+}
+
+.signin-btn:active {
+    transform: translateY(0);
+}
+
+.social-login {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.social-login p {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.social-login p::before,
+.social-login p::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.social-login p::before {
+    left: 0;
+}
+
+.social-login p::after {
+    right: 0;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+.register-link a:hover{
+    text-decoration: underline;
+}
+/* Add this to your existing CSS */
+
+.logo {
+    display: none; /* Hidden by default */
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px 0 15px 0;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+    box-shadow: 0 0 25px rgba(255, 68, 0, 0.587);
+}
+
+html {
+    overflow-y: auto;
+}
+
+/* Update the existing responsive section */
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .banner, .signin-panel {
+        width: 100%;
+        height: 100vh;
+    }
+    
+    .banner {
+        display: none;
+    }
+
+    .logo {
+        display: block; /* Show logo on tablet and mobile */
+    }
+
+    .signin-panel {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .signin-panel {
+        padding: 1.5rem;
+        justify-content: flex-start; /* Adjust for better mobile spacing */
+        padding-top: 3rem;
+    }
+    
+    .logo img {
+        width: 30%;
+        height: 30%;
+    }
+    
+    .signin-container {
+        max-width: 100%;
+    }
+    
+    .signin-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .signin-header p {
+        font-size: 0.8rem;
+    }
+    
+    .remember-forgot {
+        flex-direction: row;
+        align-items: flex-start;
+        /* gap: 50px; */
+    }
+}

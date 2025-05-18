@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ride OTP</title>
+    <style>
+        body {
+            background-color: #ffe0c3;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background-color: #ffc396;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            color: darkorange;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: green;
+            margin-bottom: 20px;
+        }
+
+        .otp {
+            font-size: 18px;
+            color: green;
+            margin-bottom: 20px;
+        }
+
+        .otp span {
+            color: blue;
+            font-weight: bold;
+        }
+
+        .details {
+            font-size: 16px;
+            text-align: left;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .details strong {
+            font-weight: bold;
+        }
+
+        .footer {
+            color: darkorange;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Safe Stapes</h1>
+        <h2>Ride OTP</h2>
+
+        <p class="otp">
+            Your Ride OTP is [ <span>{{ otp }}</span> ] only share to your rider.
+        </p>
+
+        <div class="details">
+            <p><strong>Rider :</strong> {{ rider_name }}</p>
+            <p><strong>vehicle_type :</strong> {{ vehicle_type }}</p>
+            <p><strong>vehicle_number :</strong> <span style="font-weight:bold;">{{ vehicle_number }}</span></p>
+            <p><strong>vehicle_color :</strong> {{ vehicle_color }}</p>
+        </div>
+
+        <p class="footer">Thanks for using Safe Stapes</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps - Member Panel</title>
+    <link rel="stylesheet" href="{% static 'CSS/member_Signup.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{% static 'javascript/member_Signup.js' %}" defer></script>
+   
+</head>
+<body>
+    <div class="container">
+        <!-- Left Banner Content -->
+        <div class="banner">
+            <div class="slide">
+                <!-- <img src="./assets/image/background.jpg" alt="Safety Background"> -->
+                <!-- <div class="left-info"> -->
+                    <!-- <div class="blur-left"> -->
+                        <!-- When open to Pc  -->
+                         <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="safe-steps!">
+                    <!-- </div> -->
+                    <!-- <div class="content">
+                       
+                    </div> -->
+                <!-- </div> -->
+            </div>
+        </div>
+        
+        <!-- Right Sign-In Panel -->
+        <div class="signUp-panel">
+            <div class="signUp-container">
+                <div class="signUp-header">
+                    <div class="logo">
+                        <!-- When open to android/ios  -->
+                        <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="safe-steps_logo!">
+                    </div>
+                    <h2>Member Sign Up</h2>
+                </div>
+                
+                <form class="signUp-form" enctype="multipart/form-data" action="{% url 'member_Signup' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="off" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Full Name</label>
+                        <input type="text" id="text" name="name" placeholder="Enter your Full Name" autocomplete="off" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="photo">Profile Picture</label>
+                        <input type="file" accept="image/*" id="photo" name="photo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="number">Mobile Number</label>
+                        <input type="number" id="number" name="number" placeholder="Enter your Mobile Number" autocomplete="off" required>
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" autocomplete="off" required>
+                    </div>
+ -->
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+
+                        <div class="form-group-input">
+                            <input type="password" id="password" name="password" placeholder="Enter your password"
+                                onkeyup="checkPasswordStrength()" required>
+                            <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePassword(this)"></i>
+                        </div>
+                        
+                        <div class="indicator">
+                            <span class="weak"></span>
+                            <span class="medium"></span>
+                            <span class="strong"></span>
+                        </div>
+                        <div class="text">Password Strength</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rePassword">Confirm Password</label>
+                        <input type="password" id="rePassword" name="rePassword" placeholder="Enter your confirm password"  onkeyup="matchPassword()" autocomplete="off" required>
+
+                        <div class="text2">Check Password!</div>
+
+                    </div>
+                    
+                    <!-- <div class="remember-forgot"> -->
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                       
+                    <!-- </div> -->
+                    
+                    <button type="submit" class="signUp-btn">Sign Up</button>
+               
+                    
+                    <div class="register-link">
+                        <p>Already have an account? <a href="{% url 'index02' %}">Sign in now</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

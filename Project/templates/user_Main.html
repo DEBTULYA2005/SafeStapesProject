@@ -1,0 +1,910 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps | 🙏</title>
+    <!-- swiper css -->
+    <link rel="stylesheet" href="{% static 'CSS/swiper-bundle.min.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/user_Main.css' %}">
+    <link rel="icon" href="{% static 'assets/images/Safe_step_logo_-removebg-preview.png' %}">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=medical_services" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Routing Machine -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+    <!-- Nominatim Geocoder -->
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+
+    <style>
+        .leaflet-control-attribution {
+          display: none !important;
+        }
+
+        .leaflet-routing-container {
+            display: none !important;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Custom Alert -->
+    <div id="customAlert" class="alert-box">
+        <div class="alert-content">
+            <div class="alertbox-left">
+                <h2 id="alert-title"></h2>
+                <p id="alert-summary"></p>
+                <div class="btn-div">
+                    <button id="confirmBtn">Yes</button>
+                    <button id="cancelBtn">No</button>
+                </div>
+            </div>
+
+            <div class="alertbox-right">
+                <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="">
+            </div>
+        </div>
+    </div>
+
+    <button id="chatbot-toggler">
+        <span class="material-symbols-rounded">mode_comment</span>
+        <span class="material-symbols-rounded">close</span>
+    </button>
+
+    <div class="chatbot-popup">
+        <!-- ChatBot Header -->
+        <header>
+            <div class="chat-header">
+                <div class="header-info">
+                    <svg class="chatbot-logo" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                        viewBox="0 0 1024 1024">
+                        <path
+                            d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z">
+                        </path>
+                    </svg>
+                    <h2 class="logo-text">SafetyBot</h2>
+                </div>
+                <button id="close-chatbot" class="material-symbols-rounded">keyboard_arrow_down</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="chat-body">
+                <div class="message bot-message">
+                    <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="50" height="50"
+                        viewBox="0 0 1024 1024">
+                        <path
+                            d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z">
+                        </path>
+                    </svg>
+                    <div class="message-text">Welcome to Safe-Steps 🙏
+                        <br> How can I help you today?
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer>
+            <!-- chatbot footer -->
+            <div class="chat-footer">
+                <form action="#" class="chat-form">
+                    <textarea placeholder="Message..." class="message-input" required></textarea>
+                    <div class="chat-controls">
+                        <button type="button" id="emoji-picker"
+                            class="material-symbols-outlined">sentiment_satisfied</button>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="file-input" accept="images/*" hidden>
+                            <img src="#" />
+                            <button type="button" id="file-upload" class="material-symbols-rounded">attach_file</button>
+                            <button type="button" id="file-cancel" class="material-symbols-rounded">close</button>
+                        </div>
+                        <button type="submit" id="send-message" class="material-symbols-rounded">arrow_upward</button>
+                    </div>
+                </form>
+            </div>
+        </footer>
+    </div>
+    <header id="home">
+        <!------------------------------------- Home -------------------------------------------->
+        <div class="header">
+            <a href="#" class="logo">Safe Steps</a>
+            <nav>
+                <div class="nav-bar">
+                    <ul>
+                        <a href="#home" id="active">HOME</a>
+                        <a href="#" id="profileLink">PROFILE</a>
+                        <a href="#about_Section">ABOUT</a>
+                        <a href="#service_section">SERVICES</a>
+                        <a href="#partners_section">PARTNERS</a>
+                        <a href="#donation_section">DONATION</a>
+                    </ul>
+                </div>
+                <i class="fa-solid fa-bars-staggered" id="mobile-menu-btn"></i>
+            </nav>
+            <div class="theme">
+                <i class="fa-solid fa-sun" id="themeMode"></i>
+            </div>
+
+        </div>
+        <!-- Side Menu Bar -->
+        <div class="side-menu" id="sideMenu">
+            <div class="side-menu-header">
+                <div class="sidebar-title">
+                    <h2>Safe-Steps</h2>
+                </div>
+
+                <button id="closeMenu">&times;</button> <!-- Close Button -->
+            </div>
+            <!-- Profile Avatar -->
+            <div class="profile-header">
+                <form id="avatarForm" method="POST" action="{% url 'upload_avatar' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="avatar-upload">
+                        {% if picture %}
+                            <img src="{{ picture }}" alt="profile" class="profile-avatar">
+                        {% else %}
+                            <img src="{{ user.avatar.url }}" alt="profile" class="profile-avatar">
+                        {% endif %}
+                        <div class="profile-plus" onclick="document.getElementById('avatarInput').click()">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display: none;" onchange="document.getElementById('avatarForm').submit()">
+                    </div>
+                </form>
+                <h2>  {% if user.full_name %}
+                    {{ user.full_name }}
+                  {% else %}
+                    {{ Auth_name }}
+                  {% endif %}</h2>
+                <p>  {% if user.email %}
+                    {{ user.email }}
+                  {% else %}    
+                    {{ Auth_email }}
+                  {% endif %}</p>
+            </div>
+            <ul class="menu-btns">
+                <li>
+                    <a href="{% url 'logout_user' %}" id="logout-item">
+                    <i class="fa-solid fa-right-from-bracket" id="logout-profile"></i>Logout
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <!-- Backdrop for Blur Effect -->
+        <div class="backdrop" id="backdrop"></div>
+
+        <!-- background image -->
+        <section class="banner">
+            <div class="slider">
+                <div class="slide">
+                    <img src="{% static 'assets/images/background03.jpg' %}" alt="load error!">
+                    <div class="left-info">
+                        <div class="blur-left">
+                            <h1>Sa</h1>
+                        </div>
+                        <div class="content">
+                            <a href="#ride_booking" class="btn">BOOK SAFE RIDE</a>
+                            <!-- <a href="#ride_booking" class="btn2">Emergency</a> -->
+                        </div>
+                    </div>
+
+                    <div class="emergency-panel" id="emergency-panel2">
+                        <button id="emergency-closebtn">&times;</button> <!-- Close Button -->
+                        <div class="form-panel">
+                            <form method="POST" action="{% url 'emergency' %}" class="emergency-form">
+                                {% csrf_token %}
+                                <button type="submit" id="helpCall"><i
+                                        class="fa-solid fa-phone"></i>&nbsp;&nbsp;&nbsp;Help Call!</button>
+
+                                <textarea id="emergency_message" rows="8" name="message"
+                                    placeholder="You are unable to make a call, when you can message here..."></textarea>
+                                <button type="submit" id="message">Message</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="right-info">
+                        <h1>fe</h1>
+                        <h3>Steps</h3>
+                        <div class="content">
+                            {% comment %} <a href="#ride_booking" class="btn">Book Safe Ride</a> {% endcomment %}
+                            <button class="btn2" id="emergency-btn">Emergency</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <!------------------------------------- About -------------------------------------------->
+    <main>
+        <section id="about_Section">
+            <div class="about_slide_container swiper">
+                <h1>Our Team</h1>
+                <hr>
+                <div class="slide_content">
+                    <div class="card-wrapper swiper-wrapper">
+                        <!-- Rishi -->
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay"></span>
+
+                                <div class="card-image">
+                                    <img src="{% static 'assets/images/rishi.png' %}" alt="load error!" class="card-img">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 id="name">Rishi Mukherjee</h2>
+                                <p id="description">CEO of Safe-Steps, I am a Cyber Security Expert, I am lead this
+                                    team.</p>
+
+                                <div class="social-icons">
+                                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                </div>
+                                <!-- <button class="button">View More</button> -->
+                            </div>
+                        </div>
+                        <!-- Shuvaranjan -->
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay"></span>
+
+                                <div class="card-image">
+                                    <img src="{% static 'assets/images/shuvaranjan.png' %}" alt="load error!" class="card-img">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 id="name">Shuvaranjan Sarkar</h2>
+                                <p id="description">Frontend Designing of Safe-Steps, I am a Java Developer from
+                                    Durgapur. </p>
+
+                                <div class="social-icons">
+                                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                </div>
+                                <!-- <button class="button">View More</button> -->
+                            </div>
+                        </div>
+                        <!-- Debtulya -->
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay"></span>
+
+                                <div class="card-image">
+                                    <img src="{% static 'assets/images/debtulya.png' %}" alt="load error!" class="card-img">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 id="name">Debtulya Sarkar</h2>
+                                <p id="description">Backend Development of Safe-Steps, I am Debtulya Sarkar from
+                                    Durgapur.</p>
+
+
+                                <div class="social-icons">
+                                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                </div>
+                                <!-- <button class="button">View More</button> -->
+                            </div>
+                        </div>
+                        <!-- tanmoy -->
+                        <div class="card swiper-slide">
+                            <div class="image-content"> 
+                                <span class="overlay"></span>
+
+                                <div class="card-image">
+                                    <img src="{% static 'assets/images/tanmoy.png' %}" alt="load error!" class="card-img">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 id="name">Tanmoy Monddal</h2>
+                                <p id="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. adipisci
+                                    in animi illum et voluptate inventore.</p>
+
+                                <div class="social-icons">
+                                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                </div>
+                                <!-- <button class="button">View More</button> -->
+                            </div>
+                        </div>
+                        <!-- Koyel -->
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay"></span>
+
+                                <div class="card-image">
+                                    <img src="{% static 'assets/images/koyel.png' %}" alt="load error!" class="card-img">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 id="name">Koyel Datta</h2>
+                                <p id="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. adipisci
+                                    in animi illum et voluptate inventore.</p>
+
+                                <div class="social-icons">
+                                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                </div>
+                                <!-- <button class="button">View More</button> -->
+                            </div>
+                        </div>
+                        <!-- Mondira -->
+                        <div class="card swiper-slide">
+                            <div class="image-content">
+                                <span class="overlay"></span>
+
+                                <div class="card-image">
+                                    <img src="{% static 'assets/images/mondira.png' %}" alt="load error!" class="card-img">
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h2 id="name">Mondira Bannerjee</h2>
+                                <p id="description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. adipisci
+                                    in animi illum et voluptate inventore.</p>
+
+                                <div class="social-icons">
+                                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                </div>
+                                <!-- <button class="button">View More</button> -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="swiper-button-next swiper-navBtn"></div>
+                <div class="swiper-button-prev swiper-navBtn"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <!------------------------------------- Service -------------------------------------------->
+        <section id="service_section">
+            <div class="service_container">
+                <div class="container">
+                    <div class="sub-title">
+                        <h1>Our Services</h1>
+                        <hr>
+                    </div>
+                    <div class="services-list">
+                        <div>
+                            <!-- <i class="fa-solid fa-briefcase"></i> -->
+                            <img src="{% static 'assets/images/self_defense.png' %}">
+                            <h2>Women's Self-Defense Training</h2>
+                            <p>
+                                Directly empowers women, Instantly fundable by schools, colleges, and NGOs Easy to showcase impact (videos, testimonials, before/after confidence levels). Partner with local gyms, martial arts centers, or police departments.
+                            </p>
+                            <a href="https://kmba.in/"><button class="service-btn" type="submit">Get
+                                    Support</button></a>
+                        </div>
+                        <div>
+                            <!-- <i class="fa-solid fa-phone"></i> -->
+                            <img src="{% static 'assets/images/cyber_security.png' %}">
+                            <h2>Cyber Safety & Online Harassment Awareness</h2>
+                            <p>
+                                Highly relevant in the digital age. You can lead or co-host sessions using your cybersecurity background. Tech companies or IT departments are more likely to fund these sessions.
+                            </p>
+                            <a href="https://www.youtube.com/watch?v=mqG5G26Q0yU&t=1s"><button class="service-btn"
+                                    type="submit">Get Support</button></a>
+                        </div>
+                        <div>
+                            <!-- <i class="fa-solid fa-heart-pulse"></i> -->
+                            <img src="{% static 'assets/images/right_education.png' %}">
+                            <h2>Legal Rights Education Sessions</h2>
+                            <p>
+                                Most women aren't aware of their rights or how to take action Creates powerful long-term impact NGOs and law schools often want to collaborate on these.
+                            </p>
+                            <a href="https://www.right-to-education.org/page/understanding-education-right"><button
+                                    class="service-btn" type="submit">Get Support</button></a>
+                        </div>
+                        <div>
+                            <!-- <i class="fa-solid fa-shield-halved"></i> -->
+                            <img src="{% static 'assets/images/safety_device.png' %}">
+                            <h2>Safety Device Distribution Drives</h2>
+                            <p>
+                                Tangible and emotional — fenders love sponsoring items like pepper sprays or alarms Easy to crowdfund — e.g., "₹100 helps 1 woman stay safe" Perfect for social media visibility and public events.
+                            </p>
+                            <a href="https://safedrivesystems.co.uk/"><button class="service-btn" type="submit">GetSupport</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!------------------------------------- Partners -------------------------------------------->
+        <section id="partners_section">
+            <div class="partners_container">
+                <div class="container">
+                    <div class="sub-title">
+                        <h1>Our Partners</h1>
+                        <hr>
+                    </div>
+                    <div class="partners-list">
+                        <div>
+                            <!-- <i class="fa-solid fa-globe"></i> -->
+                            <img src="{% static 'assets/images/indian_flag.png' %}">
+                            <h2>Nirbhaya Fund (Government of India)</h2>
+                            <p>Support Type: Grant (No repayment) How it helps: Funds women safety initiatives by
+                                individuals, NGOs, or state govts. Best For: Tech-based safety solutions like apps/web
+                                platforms Requirement: Must route through or partner with a govt department or
+                                registered NGO.
+                            </p>
+                            <a href="https://www.mha.gov.in/en/pressrelease/nirbhaya-fund"><button class="btn">Learn
+                                    More</button></a>
+                        </div>
+
+                        <div>
+                            <!-- <i class="fa-solid fa-hand-holding-heart"></i> -->
+                            <img src="{% static 'assets/images/indian_flag.png' %}">
+                            <h2>Breakthrough India</h2>
+                            <p>Support Type: NGO collaboration (No money involved, just network and training) How it
+                                helps: Offers visibility, field support, and may help with scaling Best For: Getting
+                                connected with schools, colleges, and outreach.
+                            </p>
+                            <a href="https://inbreakthrough.org/"><button class="btn">Learn More</button></a>
+                        </div>
+
+                        <div>
+                            <!-- <i class="fa-solid fa-people-carry-box"></i> -->
+                            <img src="{% static 'assets/images/women_safety.png' %}">
+                            <h2>Safety</h2>
+                            <p>Support Type: Collaboration (No repayment) How it helps: Awareness, outreach, and
+                                possible inclusion in their safety tech campaigns Best For: Promoting SafeSteps through
+                                their platform and contacts
+                            </p>
+                            <a href="https://www.mha.gov.in/en/divisionofmha/women-safety-division"><button
+                                    class="btn">Learn More</button></a>
+                        </div>
+
+                        <div>
+                            <!-- <i class="fa-solid fa-user-shield"></i> -->
+                            <img src="{% static 'assets/images/un_women.png' %}">
+                            <h2>UN Women India</h2>
+                            <p>Support Type: Grant & partnerships (No payback) How it helps: Visibility, global
+                                recognition, and support for grassroots safety innovation Best For: Getting serious
+                                recognition, especially if you're planning a large rollout.
+                            </p>
+                            <a href="https://asiapacific.unwomen.org/en/countries/india"><button class="btn">Learn
+                                    More</button></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!------------------------------------- Book Ride -------------------------------------------->
+        <section id="ride_booking">
+            <h2 class="book-ride-title">Book Ride</h2>
+            <div class="container">
+                <div class="booking-container" id="bookingContainer">
+                    <div class="title">
+                        <i class="fa-solid fa-taxi"></i>
+                        <h1>Safe-Steps Ride Booking</h1>
+                    </div>
+
+                    <div class="search-fields">
+                     <form method="POST" action="{% url 'book_ride' %}">
+                        {% csrf_token %}
+                        <label for="pickupLocation">From</label>
+                        <input type="text" id="pickupLocation" name="pickup" placeholder="Enter pickup location">
+                        <label for="dropLocation">To</label>
+                        <input type="text" id="dropLocation" name="dropoff" placeholder="Enter drop location">
+                        <!-- 
+                        <div class="ride-details hidden" id="rideDetails">
+                            <p>Estimated Distance: <span id="distance"></span></p>
+                            <p>Estimated Duration: <span id="duration"></span></p>
+                            <p>Approximate Fare: <span id="fare"></span></p>
+                        </div> -->
+
+                        <button type="submit" id="calculateRoute">Book Ride</button>
+                     </form>
+                        <!-- <button id="bookRide" class="hidden">Confirm Booking</button> -->
+                    </div>
+
+                </div>
+
+                <div class="response-container" id="responseContainer">
+                    <div class="title">
+                        <h1>Wait For Driver Response</h1>
+                        <div class="hourglassBackground">
+                            <div class="hourglassContainer">
+                                <div class="hourglassCurves"></div>
+                                <div class="hourglassCapTop"></div>
+                                <div class="hourglassGlassTop"></div>
+                                <div class="hourglassSand"></div>
+                                <div class="hourglassSandStream"></div>
+                                <div class="hourglassCapBottom"></div>
+                                <div class="hourglassGlass"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="search-fields">
+
+                        <button id="cancelRide">Cancel</button>
+
+                    </div>
+
+
+                </div>
+
+                <div class="rider-container" id="riderContainer">
+                    <div class="title">
+                        <i class="fa-solid fa-taxi"></i>
+
+                        <div class="loading">
+                            <h1>Rider is Coming</h1>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <img src="{% static 'assets/images/road.png' %}" alt="">
+                        <div id="img">
+                            <img src="{% static 'assets/images/riderVehicle.gif' %}">
+                        </div>
+                    </div>
+
+                    <!-- Search Fields -->
+                    <div class="button-fields">
+                        <button id="cancelRide">Cancel-Ride</button>
+                        <!-- <button id="cancelRide">Call</button> -->
+
+                    </div>
+
+                    <!-- Confirmation Messages -->
+                    <!-- <div id="confirmationMessages">
+                        <p id="rideBookedMessage" class="hidden">Your ride has been booked! You will arrive shortly.</p>
+                        <p id="arrivalConfirmationMessage" class="hidden">Safe-Steps, 😊Thank you for confirming your
+                            safe arrival!</p>
+                    </div> -->
+                </div>
+
+                <div class="mapView">
+                    <div id="map"></div>
+                    <h3>Safe-Steps Map</h3>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <footer>
+        <!------------------------------------- Contact -------------------------------------------->
+        <div id="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="contact-left">
+                        <h1 class="sub-title">Contact Us</h1>
+                        <hr>
+                        <p><i class="fas fa-paper-plane"></i> safesteps247@gmail.com</p>
+                        <p><i class="fa-solid fa-square-phone"></i> 8650068493</p>
+                        <p><i class="fa-solid fa-shield-halved"></i> 24*7</p>
+
+                    </div>
+
+                    <div class="contact-right">
+                        <form method="POST" action="{% url 'contact' %}">
+                            {% csrf_token %}
+                            <!-- <input type="hidden" name="access_key" value="620c1cdf-1175-4b4d-b3dd-c4985b650d36"> -->
+                            <input type="text" name="Name" id="fname" value={% if user.full_name %}
+                            {{ user.full_name }}
+                          {% else %}
+                            {{ Auth_name }} 
+                          {% endif %} required>
+                            <div class="error-txt">*Full Name can't be blank</div>
+
+                            <input type="email" name="Email" id="email" value="{% if user.email %}
+                            {{ user.email }}
+                          {% else %}
+                            {{ Auth_email }} 
+                          {% endif %}" required>
+                            <div class="error-txt">*Email can't be blank</div>
+
+                            <input type="number" name="Number" id="number" value="{% if user.phone %}
+                            {{ user.phone }}
+                          {% endif %}" required>
+                            <div class="error-txt">*Ph Number can't be blank</div>
+
+                            <textarea name="Message" rows="6" id="message" placeholder="Your Message"></textarea>
+                            <div class="error-txt">*Message can't be blank</div>
+
+                            <button type="submit" class="btn">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <section id="donation_section">
+                <div class="donation-card qr-section">
+                    <h2>Scan to Donate</h2>
+                    <p>Use your mobile payment app to scan the QR code</p>
+
+                    <div class="qr-code">
+                        <!-- Replace with your actual QR code image -->
+                        <img src="{% static 'assets/images/qr.jpg' %}" alt="Donation QR Code">
+                    </div>
+
+                    <div class="qr-instructions">
+                        <p><strong>How to use:</strong></p>
+                        <ol>
+                            <li>Open your mobile payment app</li>
+                            <li>Tap on 'Scan QR Code'</li>
+                            <li>Point your camera at this code</li>
+                            <li>Enter the amount and confirm</li>
+                        </ol>
+                    </div>
+
+                    <div class="payment-details" style="margin-top: 1rem;">
+                        <p><strong>UPI ID:</strong>&nbsp;9064714325@sbi</p>
+                        <p><strong>PhonePe/PayTM:</strong>&nbsp;9064714325</p>
+                    </div>
+
+                    <div class="thank-you">
+                        Thank you &hearts; for your generosity
+                    </div>
+                </div>
+
+        </div>
+        </section>
+        <div class="footer-bar">
+
+            <div class="div">
+                <a href="/pages/terms-conditions">Terms & Conditions</a>|
+                <p>Copyright &copy; Safe-Steps <i class="fa-solid fa-heart"></i></p>
+            </div>
+            <div class="footer-box">
+                <a href="#home"><i class="fa-solid fa-arrow-up-from-bracket"></i></a>
+            </div>
+        </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Linking emoji mart script for emoji picker -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+
+    <!-- Linking custom script -->
+    <script src="{% static 'JavaScript/swiper-bundle.min.js' %}"></script>
+
+    {% comment %} <script>
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/updates/');
+    
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            // Do something with the data
+            console.log("New update:", data.message);
+            // Optionally update the DOM
+        };
+    
+        socket.onopen = function(e) {
+            console.log("WebSocket connection established");
+        };
+    </script> {% endcomment %}
+    
+    
+    <script>
+        var map = L.map('map').setView([23.55, 87.32], 12);
+    
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+    
+        var control = null;
+    
+        // Manually defined rider locations
+        const riderLocations = [
+            { name: "Rider 1", lat: 23.547, lon: 87.290 },
+            { name: "Rider 2", lat: 23.561, lon: 87.321 },
+            { name: "Rider 3", lat: 23.552, lon: 87.308 }
+        ];
+    
+        const blueIcon = new L.Icon({
+            //iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+            iconUrl: '{% static "assets/images/riders.gif" %}',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            iconSize: [40, 61],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+    
+        function showRiderMarkers() {
+            riderLocations.forEach(rider => {
+                L.marker([rider.lat, rider.lon], { icon: blueIcon }).addTo(map).bindPopup(`Rider: ${rider.name}`);
+                // Add circle under the marker
+                L.circle([rider.lat, rider.lon], {
+                    color: '#48fb9f',         // Circle border color
+                    fillColor: '#48fb9f',  // Circle fill color
+                    //fillOpacity: 0.3,
+                    radius: 1000           // Radius in meters
+                }).addTo(map);
+            });
+        }
+
+        // Function to get the current location of the user
+        function getCurrentLocation(callback) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const currentLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
+                        console.log("Accuracy: " + position.coords.accuracy + " meters");
+                        callback(currentLatLng); // Pass the current location to the callback
+                    },
+                    function(error) {
+                        alert("Error getting current location: " + error.message);
+                        callback(null);
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,         // Wait up to 10 seconds
+                        maximumAge: 0           // Don't use cached location
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+                callback(null);
+            }
+        }
+        
+
+        function drawRoute(pickup, dropoff) {
+            const city = "Durgapur, West Bengal, India";
+        
+            const pickupQuery = `${pickup}, ${city}`;
+            const dropoffQuery = `${dropoff}, ${city}`;
+        
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(pickupQuery)}`)
+                .then(res => res.json())
+                .then(data1 => {
+                    let pickupLatLng;
+        
+                    if (data1.length) {
+                        pickupLatLng = L.latLng(data1[0].lat, data1[0].lon);
+                    } else if (typeof pickup === "string" && fallbackCoords[pickup.toLowerCase()]) {
+                        pickupLatLng = L.latLng(...fallbackCoords[pickup.toLowerCase()]);
+                    } else if (pickup instanceof L.LatLng) {
+                        pickupLatLng = pickup;
+                    } else {
+                        throw new Error("Pickup not found in both Nominatim and fallback.");
+                    }
+        
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(dropoffQuery)}`)
+                        .then(res => res.json())
+                        .then(data2 => {
+                            let dropoffLatLng;
+        
+                            if (data2.length) {
+                                dropoffLatLng = L.latLng(data2[0].lat, data2[0].lon);
+                            } else if (fallbackCoords[dropoff.toLowerCase()]) {
+                                dropoffLatLng = L.latLng(...fallbackCoords[dropoff.toLowerCase()]);
+                            } else {
+                                throw new Error("Dropoff not found in both Nominatim and fallback.");
+                            }
+        
+                            if (control !== null) {
+                                map.removeControl(control);
+                            }
+
+                            const greenIcon = new L.Icon({
+                                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+                                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 41],
+                                popupAnchor: [1, -34],
+                                shadowSize: [41, 41]
+                              });
+                              
+                              const redIcon = new L.Icon({
+                                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+                                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 41],
+                                popupAnchor: [1, -34],
+                                shadowSize: [41, 41]
+                              });
+                              
+                              L.marker(pickupLatLng, { icon: greenIcon }).addTo(map).bindPopup("Pickup");
+
+                              // Add dropoff marker (red)
+                              L.marker(dropoffLatLng, { icon: redIcon }).addTo(map).bindPopup("Dropoff");
+    
+                            control = L.Routing.control({
+                                waypoints: [pickupLatLng, dropoffLatLng],
+                                routeWhileDragging: false,
+                                lineOptions: {
+                                    styles: [{ color: 'green', opacity: 0.8, weight: 6 }]
+                                },
+                                fitSelectedRoutes: true,
+                                createMarker: () => null, // prevent duplicate markers from being auto-created
+                                fitBounds: true
+                            
+                            }).addTo(map);
+
+                            
+        
+                            map.setView(pickupLatLng, 13);
+                        });
+                })
+                .catch(err => {
+                    alert(err.message);
+                });
+        }
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pickup = urlParams.get('pickup');
+            const dropoff = urlParams.get('dropoff');
+
+            showRiderMarkers();
+
+            if (dropoff) {
+                // Get the user's current location and then fetch the route
+                getCurrentLocation(function(currentLatLng) {
+                    if (currentLatLng) {
+                        // Use the member's current location as pickup
+                        const pickup = currentLatLng;
+
+                        if (pickup && dropoff) {
+                            drawRoute(pickup, dropoff);
+                        } 
+                        
+                    }
+                });
+            }
+
+        });
+    </script>
+    
+
+    <!-- Fallback Locations -->
+    <script src="{% static 'JavaScript/fallback_locations.js' %}"></script>
+
+    <script src="{% static 'JavaScript/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'JavaScript/user_Main.js' %}"></script>
+    <script src="{% static 'JavaScript/safestepsAi.js' %}"></script>
+        
+    {% comment %} <script>
+        setInterval(function(){
+          window.location.reload();
+        }, 30000); // 30 seconds
+      </script> {% endcomment %}
+</body>
+
+</html>

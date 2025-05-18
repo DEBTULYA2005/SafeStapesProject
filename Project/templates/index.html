@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps | Women Safety Org</title>
+    <link rel="stylesheet" href="{% static 'CSS/landing.css' %}">
+    <link rel="icon" href="{% static 'assets/images/Safe_step_logo_-removebg-preview.png' %}">
+   <!-- Replace the Font Awesome link with this -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous">
+  
+</head>
+
+<body>
+    <!-- Background image using img tag -->
+    <div class="background-container">
+        <img class="background-img" src="{% static 'assets/images/dark.png' %}" alt="Background">
+    </div>
+    
+    <!-- Dark overlay -->
+    <div class="overlay"></div>
+
+    <div class="textPan">
+        <h2> <span id="word1">safe</span> &nbsp;&nbsp;&nbsp;&nbsp;<span id="word2">steps!</span></h2>
+        <div class="para">
+            <p>Every Steps Matter's, with safe steps You are never alone</p>
+        </div>
+        <div class="btn">
+            <a href="{% url 'user_signIn' %}"><button type="submit" id="nextPageButton">Get Started&nbsp;<i class="fa-solid fa-chevron-right"></i></button></a>
+        </div>
+    </div>
+
+
+    
+    <script>
+        // Simple script to check for extension conflicts
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded successfully');
+            
+            // If you're using any async operations, ensure they complete
+            const loadFontAwesome = () => {
+                return new Promise((resolve) => {
+                    if (document.fonts && document.fonts.ready) {
+                        document.fonts.ready.then(resolve);
+                    } else {
+                        setTimeout(resolve, 1000);
+                    }
+                });
+            };
+            
+            loadFontAwesome().then(() => {
+                console.log('All assets loaded');
+            });
+        });
+    </script>
+   
+</body>
+
+</html>

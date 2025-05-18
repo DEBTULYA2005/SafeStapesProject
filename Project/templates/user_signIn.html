@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps | Sign In</title>
+    <link rel="stylesheet" href="{% static 'CSS/user_SignIn.css' %}">
+    <link rel="icon" href="{% static 'assets/images/Safe_step_logo_-removebg-preview.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video" preload="auto">
+            {% comment %} <source src="{% static 'assets/videos/hands.mp4' %}" type="video/mp4"> {% endcomment %}
+            <!-- Your browser does not support the video  -->
+        </video>
+    </div>
+
+    <!-- Custom Alert -->
+     <div id="customAlert" class="alert-box">
+        <div class="alert-content">
+           <div class="alertbox-left">
+            <h2 id="alert-title"></h2>
+            <p id="alert-summary"></p>
+            <button id="confirmBtn">OK</button>
+           </div>
+
+            <div class="alertbox-right">
+                <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="">
+            </div>
+        </div>
+     </div>
+   
+
+    <!-- Wrapper for the form -->
+    <div class="wrapper">
+        <div class="close_panel">
+            <a href="{% url 'index' %}"><button class="close"><i class="fa-solid fa-xmark"></i></button></a>
+        </div>
+        <form method="POST" action="{% url 'user_signIn' %}">
+            {% csrf_token %}
+            <h1>Sign in</h1>
+            <div class="input-box">
+                <input type="email" name="user" id="user" placeholder="Enter Email" autocomplete="off" >
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" name="pass" id="pass" placeholder="Enter Password" >
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <div class="remember-forget">
+                <label for="agree"><input type="checkbox" name="agree" id="agree" checked>Remember me</label>
+                <label>
+                    <a href="{% url 'generate_otp' %}">Forget Password</a>
+                </label>
+            </div>
+            <button type="submit" id="btn" class="btn">Sign in</button>
+           
+            <div class="register-link">
+                <p>Don't have an account? <a href="{% url 'user_signUp' %}">Sign up</a></p>
+            </div>
+
+
+            <!-- Social Media Icons -->
+            <div class="social-icons">
+                <div class="or-divider">
+                    <hr>
+                    <span>or sign in with</span>
+                    <hr>
+                </div>
+                <div class="icons">
+                    <a href="{% url 'google-auth' %}" class="social-icon" id="icn1"><i class="fab fa-google"></i></a>
+                    <a href="{% url 'google-auth' %}" class="social-icon" id="icn2"><i class="fab fa-facebook"></i></a>
+                    <a href="{% url 'google-auth' %}" class="social-icon" id="icn3"><i class="fab fa-apple"></i></a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'JavaScript/user_signIn.js' %}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps - Admin Panel</title>
+    <link rel="stylesheet" href="{% static 'CSS/admin_signUp.css' %}">
+    <!-- libraries -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   
+</head>
+<body>
+    <div class="container">
+        <!-- Left Banner Content -->
+        <div class="banner">
+            <div class="slide">
+                <img src="{% static 'assets/images/Safe_step.jpg' %}" alt="safe-steps!">
+            </div>
+        </div>
+        
+        <!-- Right Sign-In Panel -->
+        <div class="signUp-panel">
+            <div class="signUp-container">
+                <div class="signUp-header">
+                    <div class="logo">
+                        <!-- When open to android/ios  -->
+                        <img src="{% static 'assets/images/Safe_step.jpg' %}" alt="safe-steps_logo!">
+                    </div>
+                    <h2>Admin Sign Up</h2>
+                </div>
+                
+                <form enctype="multipart/form-data" method="post" action="{% url 'admin_SignUp' %}" class="signUp-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email">*Email Address</label>
+                        <input type="email" id="email" name="Admin_email" placeholder="Enter your email" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="text">*Full Name</label>
+                        <input type="text" id="texr" name="Admin_full_name" placeholder="Enter your Full Name" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="photo">Profile Picture</label>
+                        <input type="file" accept="image/*" id="photo" name="Admin_photo">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">*Password</label>
+                        <div class="form-group-input">
+                            <input type="password" id="password" name="Admin_password" placeholder="Enter your password"
+                                onkeyup="checkPasswordStrength()" required>
+                            <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePassword(this)"></i>
+                        </div>
+                        
+                        <div class="indicator">
+                            <span class="weak"></span>
+                            <span class="medium"></span>
+                            <span class="strong"></span>
+                        </div>
+                        <div class="text">Password Strength</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="rePassword">*Confirm Password</label>
+                        <input type="password" id="rePassword" name="Admin_rePassword" placeholder="Enter your confirm password"  onkeyup="matchPassword()" autocomplete="off" required>
+
+                        <div class="text2">Check Password!</div>
+
+                    </div>
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                    <button type="submit" class="signUp-btn">Sign Up</button>
+                    <div class="register-link">
+                        <p>Already have an account? <a href="{% url 'index03' %}">Sign in now</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        function togglePassword(icon) {
+            const input = icon.previousElementSibling;
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            }
+        }
+        
+        // Password strength checker
+        function checkPasswordStrength() {
+            const password = document.getElementById("password").value;
+            const indicator = document.querySelector(".indicator");
+            const text = document.querySelector(".text");
+            const weak = document.querySelector(".weak");
+            const medium = document.querySelector(".medium");
+            const strong = document.querySelector(".strong");
+        
+            const hasLower = /[a-z]/.test(password);
+            const hasUpper = /[A-Z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+        
+            if (password.length > 0) {
+                indicator.style.display = "flex";
+                text.style.display = "block";
+            } else {
+                indicator.style.display = "none";
+                text.style.display = "none";
+                return;
+            }
+        
+            weak.classList.remove("active");
+            medium.classList.remove("active");
+            strong.classList.remove("active");
+        
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.length >= 12) strength++;
+            if (hasLower) strength++;
+            if (hasUpper) strength++;
+            if (hasNumber) strength++;
+            if (hasSpecial) strength++;
+        
+            if (strength <= 2 || password.length < 6) {
+                weak.classList.add("active");
+                text.textContent = "Password is Weak";
+                text.style.color = "#ff4757";
+            } else if (strength <= 4) {
+                weak.classList.add("active");
+                medium.classList.add("active");
+                text.textContent = "Password is Medium";
+                text.style.color = "#ffa502";
+            } else {
+                weak.classList.add("active");
+                medium.classList.add("active");
+                strong.classList.add("active");
+                text.textContent = "Password is Strong";
+                text.style.color = "#2ed573";
+            }
+        }
+        
+        // Password match checker
+        function matchPassword() {
+            const password = document.getElementById("password").value;
+            const rePassword = document.getElementById("rePassword").value;
+            const text2 = document.querySelector(".text2");
+        
+            if (rePassword.length > 0) {
+                text2.style.display = "block";
+                if (password === rePassword) {
+                    text2.textContent = "Password matched";
+                    text2.style.color = "#2ed573";
+                } else {
+                    text2.textContent = "Password not matched!";
+                    text2.style.color = "#ff4757";
+                }
+            } else {
+                text2.style.display = "none";
+            }
+        }
+        </script>
+        
+</body>
+</html>

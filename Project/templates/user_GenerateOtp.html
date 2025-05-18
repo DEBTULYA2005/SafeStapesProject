@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe-Steps | Change Password</title>
+    <link rel="stylesheet" href="{% static 'CSS/user_generateOtp.css' %}">
+    
+    <link rel="icon" href="{% static 'assets/images/Safe_step_logo_-removebg-preview.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    
+    <!-- Custom Alert -->
+    <div id="customAlert" class="alert-box">
+        <div class="alert-content">
+           <div class="alertbox-left">
+            <h2 id="alert-title"></h2>
+            <p id="alert-summary"></p>
+            <button id="confirmBtn">OK</button>
+           </div>
+
+            <div class="alertbox-right">
+                <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="">
+            </div>
+        </div>
+     </div>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video" preload="auto">
+            <source src="{% static 'assets/videos/hands.mp4' %}" type="video/mp4">
+            <!-- Your browser does not support the video  -->
+        </video>
+    </div>
+
+
+    <!-- Wrapper for the form -->
+    <div class="wrapper">
+        <div class="close_panel">
+            <a href="{% url 'generate_otp' %}"><button class="close"><i class="fa-solid fa-xmark"></i></button></a>
+        </div>
+        <form method="POST" action="{% url 'generate_otp' %}" id="otpGenerate-form">
+            {% csrf_token %}
+            <h1>Forget Password</h1>
+            <div class="input-box">
+                <input type="email" name="email" id="user" placeholder="Enter Email" required>
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <button type="submit" class="btn">Get Otp</button>
+        </form>
+    </div>
+
+    {% comment %} <script src="{% static 'JavaScript/user_GenerateOtp.js' %}"></script> {% endcomment %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const video = document.getElementById("bg-video");
+        
+            // Hide the video initially
+            video.style.opacity = 0;
+        
+            // Wait for the video to load
+            video.addEventListener("loadeddata", function () {
+                // Fade in the video smoothly
+                video.style.transition = "opacity 1s ease-in-out";
+                video.style.opacity = 1;
+            });
+        
+            // Fallback: If the video fails to load, ensure the background color is visible
+            video.addEventListener("error", function () {
+                document.querySelector(".video-background").style.backgroundColor = "#000"; // Fallback color
+            });
+
+            // Function to show alert and handle video pausing
+            function showAlert(alertBox, alertTitle, alertSummary, title, message, isSuccess = false) {
+                // Pause the video
+                const video = document.getElementById("bg-video");
+                video.pause();
+                
+                // Show alert
+                alertBox.style.display = 'block';
+                alertTitle.textContent = title;
+                alertSummary.textContent = message;
+                
+                // Hide button for success case
+                const alertBtn = document.getElementById('confirmBtn');
+                if (isSuccess) {
+                    alertBtn.style.display = 'none';
+                } else {
+                    alertBtn.style.display = 'block';
+                    // Add one-time event listener for closing
+                    alertBtn.onclick = function() {
+                        alertBox.style.display = 'none';
+                        // Resume video playback
+                        video.play();
+                    };
+                }
+            }
+        });
+
+    </script>
+
+
+</body>
+
+</html>

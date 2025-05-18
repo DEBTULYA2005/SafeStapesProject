@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps | Sign Up</title>
+    <link rel="stylesheet" href="{% static 'CSS/user_SignUp.css' %}">
+    <link rel="icon" href="{% static 'assets/images/Safe_step_logo_-removebg-preview.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+
+    <!-- Custom Alert -->
+    <div id="customAlert" class="alert-box">
+        <div class="alert-content">
+            <div class="alertbox-left">
+                <h2 id="alert-title"></h2>
+                <p id="alert-summary"></p>
+                <button id="confirmBtn">OK</button>
+            </div>
+
+            <div class="alertbox-right">
+                <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- Wrapper for the form -->
+    <div class="wrapper">
+        <div class="close_panel">
+            <a href="{% url 'user_signIn' %}"><button class="close"><i class="fa-solid fa-xmark"></i></button></a>
+        </div>
+        <form method="POST" action="{% url 'user_signUp' %}">
+            {% csrf_token %}
+            <h1>Sign up</h1>
+            <div class="input-box">
+                <input type="email" name="Email" id="user" placeholder="Email" autocomplete="off" >
+                <i class="fa-solid fa-envelope" id="icons"></i>
+            </div>
+            <div class="input-box">
+                <input type="text" name="Fullname" id="fname" placeholder="Full Name" autocomplete="off" >
+                <i class="fa-solid fa-user" id="icons"></i>
+            </div>
+            <div class="input-box">
+                <input type="number" name="Ph" id="ph" placeholder="Mobile Number" autocomplete="off" >
+                <i class="fa-solid fa-phone" id="icons"></i>
+            </div>
+            <div class="form-group">
+                <div class="input-box">
+                    <input type="password" name="Password" id="password" placeholder="Enter your password"
+                        onkeyup="checkPasswordStrength()" >
+                    <i class="fa-solid fa-lock" id="icons"></i>
+                    <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePassword(this, 'password')"></i>
+                </div>
+                <div class="indicator">
+                    <span class="weak"></span>
+                    <span class="medium"></span>
+                    <span class="strong"></span>
+                </div>
+                <div class="text">Password Strength</div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="input-box">
+                    <input type="password" name="RePassword" id="rePassword" placeholder="Enter your confirm password"
+                        onkeyup="matchPassword()" autocomplete="off" >
+                    <i class="fa-solid fa-lock" id="icons"></i>
+                </div>
+                <div class="text2">Check Password!</div>
+            </div>
+
+
+            <div class="remember-forget">
+                <label for="agree"><input type="checkbox" name="agree" id="agree">Remember me</label>
+                <!-- <label>
+                    <a href="#">Forget Password</a>
+                </label> -->
+            </div>
+            <button type="submit" class="btn">Sign up</button>
+
+            <div class="register-link">
+                <p>Already have an account? <a href="{% url 'user_signIn' %}">Sign in</a></p>
+            </div>
+        </form>
+    </div>
+
+
+
+    <script src="{% static 'JavaScript/user_signUp.js' %}"></script>
+
+
+
+</body>
+
+</html>

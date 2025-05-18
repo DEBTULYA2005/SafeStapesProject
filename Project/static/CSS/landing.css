@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    user-select: none;
+}
+
+
+/* Landing Page */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.background-img {
+    width: 100%;
+    height: 100%;
+    /* object-fit: cover; */
+    background-size: cover;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.559);
+    z-index: 0;
+}
+
+.textPan {
+    margin-top: 1.2em;
+    width: 100%;
+    max-width: 1200px;
+    /* Maximum width */
+    height: auto;
+    padding: 0 2em;
+}
+
+
+
+.textPan h2 {
+    font-size: 15vw;
+    /* Adjusted for responsiveness */
+    font-family: 'Poppins';
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.831);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    line-height: 1em;
+    opacity: 0;
+    /* Start with text hidden */
+    animation: fadeIn 2.5s ease-in-out forwards;
+    /* Apply the fade-in animation */
+    animation-delay: 0.5s;
+    /* Delay the animation by 0.5s */
+}
+
+/* Fade-in animation for the "Safe Step" text */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.textPan p {
+    width: 70%;
+    font-family: 'Poppins';
+    font-size: 2.5em;
+    /* Adjusted for responsiveness */
+    color: #ffffff7d;
+}
+
+.textPan .para p {
+    opacity: 0;
+    /* Start with text hidden */
+    animation: fadeIn 2.5s ease-in-out forwards;
+    /* Apply the fade-in animation */
+    animation-delay: 0.8s;
+    /* Delay the animation to sync with other elements */
+}
+
+.textPan .para {
+    padding-right: 0;
+    /* Adjusted for responsiveness */
+    margin: 1em 0 1em 0;
+}
+
+
+
+/* Button Styling */
+button {
+    --color: #d12d00;
+    font-family: inherit;
+    display: inline-block;
+    width: 8em;
+    height: 2.6em;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border: 2px solid var(--color);
+    transition: color 0.5s;
+    z-index: 1;
+    font-size: 17px;
+    border-radius: 6px;
+    font-weight: 500;
+    color: var(--color);
+}
+
+button:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: var(--color);
+    height: 150px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+button:hover {
+    color: #fff;
+    box-shadow: 0 0 20px rgb(255, 255, 255);
+}
+
+button:before {
+    top: 100%;
+    left: 100%;
+    transition: all 0.7s;
+}
+
+button:hover:before {
+    top: -30px;
+    left: -30px;
+}
+
+button:active:before {
+    background: #d12d00;
+    transition: background 0s;
+}
+
+/* Add slide-in animation for the button */
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+        /* Start off-screen to the left */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        /* Move to its original position */
+    }
+}
+
+.btn button {
+    opacity: 0;
+    /* Start with button hidden */
+    animation: fadeIn 1.9s ease-in-out forwards;
+    /* Apply the fade-in animation */
+    animation-delay: 2s;
+    /* Delay the animation by 1s to sync with other elements */
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+button.slide-out {
+    animation: slideOut 0.5s ease-in-out forwards;
+}
+
+
+
+
+/* Responsive design */
+@media (max-width: 480px) {
+
+    .background-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .textPan {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .textPan h2 {
+        margin-top: 2em;
+        font-size: 18vw;
+        /* Adjusted for smaller screens */
+        line-height: 1.2em;
+    }
+
+    .textPan p {
+        font-size: 7vw;
+        /* Adjusted for smaller screens */
+        width: 100%;
+    }
+
+    .textPan .para {
+        padding-right: 0;
+        /* Adjusted for smaller screens */
+    }
+
+    button {
+        font-size: 14px;
+        /* Adjusted font size */
+        margin-top: 1em;
+        width: 150px;
+        word-spacing: 0.2em;
+
+    }
+
+    .textPan {
+        margin-top: 50%;
+    }
+
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .textPan {
+        padding: 0 1em;
+        height: 80vh;
+        margin-top: 10vh;
+    }
+
+    .textPan h2 {
+        letter-spacing: 3px;
+        line-height: 1.2;
+    }
+
+    .textPan .para {
+        margin: 1rem 0;
+    }
+
+    button {
+        width: 8em;
+        height: 2.6em;
+    }
+}

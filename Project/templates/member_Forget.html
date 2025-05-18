@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Steps - Member Panel</title>
+    <link rel="stylesheet" href="{% static 'CSS/member_Forget.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{% static 'JavaScript/member_Forget.js' %}" defer></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <!-- Left Banner Content -->
+        <div class="banner">
+            <div class="slide">
+                        <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="safe-steps-logo!">
+            </div>
+        </div>
+
+        <!-- Right forget Panel -->
+        <div class="forget-panel">
+            <div class="back-arrow">
+                <a href="{% url 'index02' %}"><i class="fa-solid fa-angle-left"></i></a>
+            </div>
+            <div class="forget-container">
+                <div class="forget-header">
+                    <div class="logo">
+                        <!-- default profile picture -->
+                        <img src="{% static 'assets/images/Safe_step(logo).jpg' %}" alt="safe-steps_logo!">
+                    </div>
+                    <h2>Forget Password</h2>
+                </div>
+
+                <form method='POST' action="{% url 'member_get_otp' %}" class="forget-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="emailAddress">Email Address</label>
+                        <input type="email" id="emailAddress" name="m_email" placeholder="Enter your email" autocomplete="on" required>
+                    </div>
+                    <button type="submit" class="forget-btn">Get OTP</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

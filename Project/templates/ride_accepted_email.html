@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ride Accepted</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3fff3;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background-color: #c6f7c6;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            color: green;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: green;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .details {
+            text-align: left;
+            color: #555;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .details p {
+            margin: 5px 0;
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+        }
+
+        .user-name {
+            color: gray;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Safe Stapes</h1>
+
+    <div class="container">
+        <h2>Ride Accepted</h2>
+
+        <div class="details">
+            <p><strong>VEHICLE DETAILS</strong></p>
+            <p>Rider : {{ rider_name }}</p>
+            <p>Vehicle : {{ v_type }}</p>
+            <p>Number Plate : {{ v_number }}</p>
+            <p>Color : {{ v_color }}</p>
+        </div>
+    </div>
+
+    <p class="footer">Be Safe</p>
+    <p class="user-name">{{ user_name }}</p>
+</body>
+</html>

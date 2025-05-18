@@ -1,0 +1,487 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    user-select: none;
+
+}
+
+/* custom Alert Styling */
+.alert-box{
+    position: absolute;
+    top: 30px;
+    width: 500px;
+    z-index: 999;
+    padding: 25px;
+    background: rgb(255, 255, 255);
+    border-radius: 5px;
+    box-shadow: 0 0 35px black;
+    display: block;
+    display: none;
+    animation: alert 0.2s linear;
+}
+
+@keyframes alert{
+    0%{
+        opacity: 0.1;
+        transform: translateY(-30px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-box .alert-content{
+    display: flex;
+    gap: 50px;
+    justify-content: space-between;
+}
+
+.alert-box .alertbox-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  
+   
+}
+
+.alert-content h2{
+    color: orangered;
+}
+.alert-content .alertbox-right {
+    border: 1px solid orangered;
+    border-radius: 5px;
+    padding: 20px;
+}
+.alertbox-right img{
+    width: 75px;
+    /* height: 55px; */
+   
+}
+.alert-box .alert-content #confirmBtn{
+    /* margin-top: 5px; */
+    width: 50px;
+    padding: 5px;
+    background: orangered;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+
+}
+/* ------- END of Alert ---------- */
+
+
+/* Body Styling */
+body {
+    /* background-image: url('./assets/image/sign _n.jpg'); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Video Background Styling */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: #000;
+    /* Fallback background color */
+}
+
+#bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    /* Start with video hidden */
+    transition: opacity 1s ease-in-out;
+    /* Smooth transition */
+}
+
+/* Close Button Styling */
+.close_panel {
+    display: inline-block;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    transition: all 0.3s ease-in-out;
+}
+
+.close_panel .close {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    width: 40px;
+    /* Smaller size for mobile */
+    height: 40px;
+    /* Smaller size for mobile */
+    border: none;
+    outline: none;
+    border-radius: 50% 25%;
+    cursor: pointer;
+    font-size: 18px;
+    /* Smaller font size for mobile */
+}
+
+.close_panel:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 420px;
+    /* background-color: whitesmoke; */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(50px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.516);
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 30px 40px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    /* Start with wrapper hidden */
+    animation: fadeIn 1s ease-in-out 0.5s forwards;
+    /* Delay animation by 0.5s */
+}
+
+
+
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+.wrapper h1 {
+    font-size: 28px;
+    /* Smaller font size for mobile */
+    text-align: center;
+}
+
+.wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 20px 0;
+    /* Reduced margin for smaller screens */
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.062);
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px;
+    font-size: 14px;
+    /* Smaller font size for mobile */
+    color: #ffffff;
+    padding: 15px 15px 15px 55px;
+    /* Reduced padding for smaller screens */
+    transition: all 0.3s ease-in-out;
+}
+
+.input-box input:focus {
+    border: 1px solid orangered;
+    box-shadow: 0 0 5px rgba(255, 68, 0, 0.632);
+}
+
+.input-box input::placeholder {
+    color: #ffffff;
+}
+
+.input-box i {
+    background-color: rgba(255, 255, 255, 0.169);
+    backdrop-filter: blur(50%);
+    padding: 15px;
+    border-radius: 50px 5px 2px 50px;
+    position: absolute;
+    /* right: 15px; */
+    left: 0px;
+    /* Adjusted position for smaller screens */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    /* Smaller icon size for mobile */
+}
+
+.wrapper .remember-forget {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    /* Smaller font size for mobile */
+    margin: -10px 0 10px;
+    /* Reduced margin for smaller screens */
+}
+
+.remember-forget label input {
+    accent-color: #c7b000;
+    margin-right: 3px;
+}
+
+.remember-forget a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.remember-forget a:hover {
+    text-decoration: underline;
+}
+
+
+
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #000000;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+
+.wrapper .btn:hover {
+    background: #f0f0f0;
+    transform: scale(1.05);
+}
+
+.wrapper .btn:active {
+    background: #949393;
+    transform: scale(1);
+}
+
+
+.wrapper .register-link {
+    font-size: 12px;
+    /* Smaller font size for mobile */
+    text-align: center;
+    margin: 15px 0 10px;
+    /* Reduced margin for smaller screens */
+}
+
+.register-link p a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+    /* font-size: large; */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .alert-box{
+        /* padding: 0; */
+        width: 85%;
+       align-items: center;
+    }
+    .alertbox-right{
+        display: none;
+    }
+    
+    .wrapper {
+        width: 95%;
+        /* Wider on smaller screens */
+        padding: 15px;
+        /* Reduced padding */
+    }
+
+    .wrapper h1 {
+        font-size: 24px;
+        /* Smaller font size for tablets */
+    }
+
+    .input-box input {
+        font-size: 14px;
+        /* Smaller font size for tablets */
+    }
+
+    .input-box i {
+        font-size: 16px;
+        padding: 18px;
+
+        /* Smaller icon size for tablets */
+    }
+
+    .remember-forget {
+        font-size: 12px;
+        /* Smaller font size for tablets */
+    }
+
+    .register-link {
+        font-size: 12px;
+        /* Smaller font size for tablets */
+    }
+}
+
+/* Social Media Icons Styling */
+.social-icons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-icons p {
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.social-icons .icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    /* Space between icons */
+}
+
+.social-icons .social-icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.169);
+    /* filter: blur(5px); */
+    color: #ffffff;
+    font-size: 18px;
+    transition: all 0.3s ease-in-out;
+}
+
+.social-icons .social-icon:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    /* Adjust margin as needed */
+    font-size: 14px;
+    /* Adjust font size as needed */
+}
+
+.or-divider hr {
+    flex: 1;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.628);
+    /* Divider color */
+    /* margin: 0 10px; Space between text and divider */
+}
+
+.or-divider span {
+    margin: 0 1em;
+    color: #ffffff;
+    /* Text color */
+
+}
+
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+
+    /* body{
+        width: 50%;
+    } */
+    .social-icons p {
+        font-size: 12px;
+    }
+
+    .social-icons .social-icon {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-icons p {
+        font-size: 10px;
+    }
+
+    .social-icons .social-icon {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wrapper {
+        width: 90%;
+        /* Full width on mobile */
+        padding: 10px;
+        /* Minimal padding */
+    }
+
+    .wrapper h1 {
+        font-size: 20px;
+        /* Smaller font size for mobile */
+    }
+
+    .input-box input {
+        font-size: 12px;
+        /* Smaller font size for mobile */
+    }
+
+    .input-box i {
+        font-size: 14px;
+        padding: 18px;
+
+        /* Smaller icon size for mobile */
+    }
+
+    .remember-forget {
+        font-size: 10px;
+        /* Smaller font size for mobile */
+    }
+
+    .register-link {
+        font-size: 10px;
+        /* Smaller font size for mobile */
+    }
+}
