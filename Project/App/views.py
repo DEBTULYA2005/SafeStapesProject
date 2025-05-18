@@ -66,7 +66,7 @@ def user_signIn(request):
         except User.DoesNotExist:
             messages.error(request, "User not found.")
 
-    return render(request, "user_signIn.html")
+    return render(request, "user_signin.html")
 
 @csrf_protect
 def user_signUp(request):
