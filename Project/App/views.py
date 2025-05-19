@@ -68,7 +68,7 @@ def user_signIn(request):
     try:
         return render(request, "user_signin.html")
     except Exception as e:
-        return HttpResponse(str(e))
+        return HttpResponse("Something went wrong")
 
 @csrf_protect
 def user_signUp(request):
