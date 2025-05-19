@@ -68,7 +68,7 @@ def user_signIn(request):
         except User.DoesNotExist:
             messages.error(request, "User not found.")
     try:
-        return render(request, "user_signUp.html")
+        return render(request, "user_signIn.html")
     except Exception as e:
         return page_not_found(request, exception=e, template_name='404.html')
 
