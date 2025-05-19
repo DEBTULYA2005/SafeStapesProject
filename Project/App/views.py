@@ -65,8 +65,10 @@ def user_signIn(request):
                 messages.error(request, "Incorrect password.")
         except User.DoesNotExist:
             messages.error(request, "User not found.")
-
-    return render(request, "user_signin.html")
+    try:
+        return render(request, "user_signin.html")
+    except Exception as e:
+        return HttpResponse(str(e))
 
 @csrf_protect
 def user_signUp(request):
