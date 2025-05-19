@@ -34,10 +34,10 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://safestepsproject.onrender.com' 
+    'https://safestapesproject.onrender.com' 
 ]
 
-ALLOWED_HOSTS = ['safestepsproject.onrender.com','52.41.36.82','localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['safestapesproject.onrender.com','52.41.36.82','localhost', '127.0.0.1', '*']
 
 SITE_ID = 1
 
