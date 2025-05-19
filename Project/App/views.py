@@ -39,7 +39,7 @@ def logout_member(request):
 def logout_admin(request):
     request.session.pop('admin_id', None)
     request.session.pop('admin_email', None)
-    return redirect('admin_signIn')
+    return redirect('index03')
 
 # User's All Logics
 
