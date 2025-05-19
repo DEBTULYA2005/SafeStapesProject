@@ -107,9 +107,11 @@ def user_signUp(request):
         print("User created successfully.")
 
         messages.success(request, "Account created successfully.")
-        return redirect("user_signin")  # Redirect to login or other page
-
-    return render(request, "user_signUp.html")
+        return redirect("user_signIn")  # Redirect to login or other page
+    try:
+        return render(request, "user_signUp.html")
+    except Exception as e:
+        return page_not_found(request, exception=e, template_name='404.html')
 
 def user_Main(request):
     user_id = request.session.get('user_id')
@@ -437,8 +439,10 @@ def member_Signup(request):
 
         messages.success(request, "Go to Vehicle Details.")
         return redirect("member_VehicleDetails")  # Change this if needed
-
-    return render(request, "member_Signup.html") 
+    try:
+        return render(request, "member_Signup.html") 
+    except Exception as e:
+        return page_not_found(request, exception=e, template_name='404.html')
 
 def member_VehicleDetails(request):
     if request.method == "POST":
@@ -464,8 +468,10 @@ def member_VehicleDetails(request):
         except Member.DoesNotExist:
             messages.error(request, "Member not found.")
             return redirect("member_Signup")
-
-    return render(request, "member_VehicleDetails.html") 
+    try:
+        return render(request, "member_VehicleDetails.html") 
+    except Exception as e:
+        return page_not_found(request, exception=e, template_name='404.html')
 
 def index02(request):
     if request.method == 'POST':
@@ -490,7 +496,10 @@ def index02(request):
             messages.error(request, 'Invalid email or password')
             return redirect('index02')  # Stay on login page if error
 
-    return render(request, "index02.html")
+    try:
+        return render(request, "index02.html")
+    except Exception as e:
+        return page_not_found(request, exception=e, template_name='404.html')
 
 def member_mainpanel(request):
     member_id = request.session.get('member_id')
@@ -501,10 +510,13 @@ def member_mainpanel(request):
     member = Member.objects.get(id=member_id)
     ride_requests = RideRequest.objects.filter(status='Pending')  # Or all() if no filter
 
-    return render(request, 'member_MainPanel.html', {
-        'member': member,
-        'ride_requests': ride_requests 
-    })
+    try:
+        return render(request, 'member_MainPanel.html', {
+            'member': member,
+            'ride_requests': ride_requests 
+        })
+    except Exception as e:
+        return page_not_found(request, exception=e, template_name='404.html')
 
 def accept_ride(request, ride_id): 
     email = request.session.get("member_email")
