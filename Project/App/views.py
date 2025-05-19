@@ -18,6 +18,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
 
+from django.views.defaults import page_not_found
+
 # from channels.layers import get_channel_layer
 # from asgiref.sync import async_to_sync
 
@@ -68,7 +70,7 @@ def user_signIn(request):
     try:
         return render(request, "user_signin.html")
     except Exception as e:
-        return HttpResponse("Something went wrong")
+        return page_not_found(request, exception=e, template_name='404.html')
 
 @csrf_protect
 def user_signUp(request):
