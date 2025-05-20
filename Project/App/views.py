@@ -22,6 +22,7 @@ from django.views.defaults import page_not_found
 
 from django.core.management import call_command
 from django.http import HttpResponse
+import os
 
 def run_migrations(request):
     if os.environ.get("RENDER") == "true":  # Optional safety check

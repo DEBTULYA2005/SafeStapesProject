@@ -119,7 +119,7 @@ WSGI_APPLICATION = 'Project.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ['DATABASE_URL'],  # Put your URL in env variable
+        default=env('DATABASE_URL'),  # Put your URL in env variable
         conn_max_age=600,
         ssl_require=True
     )
