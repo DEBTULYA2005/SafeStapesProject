@@ -4,6 +4,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+
+    path('run_migrations/', views.run_migrations, name='run_migrations'),
+
     # /auth/google/
     path('google/', views.google_auth, name='google-auth'),  
     # /auth/google/callback/        
