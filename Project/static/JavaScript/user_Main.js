@@ -512,7 +512,7 @@ document.getElementById("logout-profile").addEventListener("click", function (e)
     alertBtn.style.display = 'block';
 
     alertBtn.addEventListener('click', function () {
-        window.location.href = "user_signIn.html";
+        window.location.href = "user_signIn";
         alertBox.style.display = 'none';
 
     })
@@ -631,6 +631,6 @@ document.getElementById("logout-profile").addEventListener("click", function (e)
     showAlert("Are you sure to signOut Safe-Steps?", "");
     
     document.getElementById('confirmBtn').addEventListener('click', function() {
-        window.location.href = "user_signIn.html";
+        window.location.href = "user_signIn";
     });
 });
