@@ -181,7 +181,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Where collectstatic puts 
 # Enable compression and caching (better performance)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'
 # # MEDIA_ROOT = BASE_DIR / 'media'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -192,6 +192,8 @@ CLOUDINARY_STORAGE = {
     'API_KEY': env.int('CLOUDINARY_API_KEY'),
     'API_SECRET': env('CLOUDINARY_API_SECRET'),
 }
+
+print("Cloudinary name:", env('CLOUDINARY_CLOUD_NAME')) 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
