@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User 
+from cloudinary.models import CloudinaryField
 
 class User(models.Model):
     email = models.EmailField(unique=True)
@@ -7,7 +8,7 @@ class User(models.Model):
     phone = models.CharField(max_length=15)
     password = models.CharField(max_length=128)
     # avatar = models.ImageField(upload_to='avatars/', default='static/assets/images/no_user.jpg')
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = CloudinaryField('avatars/', blank=True, null=True)
 
     def __str__(self):
         return self.email
