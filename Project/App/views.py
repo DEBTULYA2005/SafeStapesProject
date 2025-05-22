@@ -349,7 +349,8 @@ def upload_avatar(request):
         user = User.objects.get(id=user_id)
         user.avatar = request.FILES['avatar']
         user.save()
-        return redirect('dashboard')
+        return HttpResponse(user.avatar.url)
+        # return redirect('dashboard')
     # return redirect('dashboard')
     return HttpResponse("Avatar not uploaded.")
 
