@@ -24,9 +24,9 @@ from django.core.management import call_command
 from django.http import HttpResponse
 import os
 import environ
-
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, 'secrate.env'))
+import settings.env
+# env = environ.Env()
+# environ.Env.read_env(os.path.join(BASE_DIR, 'secrate.env'))
 
 def run_migrations(request):
     if os.environ.get("RENDER") == "true":  # Optional safety check
@@ -353,7 +353,7 @@ def upload_avatar(request):
         user = User.objects.get(id=user_id)
         user.avatar = request.FILES['avatar']
         user.save()
-        return HttpResponse(user.avatar.url + "\n" + env('CLOUDINARY_CLOUD_NAME'))
+        return HttpResponse(user.avatar.url + "\n" + settings.CLOUDINARY_STORAGE['CLOUD_NAME'])
         # return redirect('dashboard')
     # return redirect('dashboard')
     return HttpResponse("Avatar not uploaded.")
