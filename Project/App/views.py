@@ -349,9 +349,10 @@ def upload_avatar(request):
         user = User.objects.get(id=user_id)
         user.avatar = request.FILES['avatar']
         user.save()
-        print(user.avatar)
-        return redirect('dashboard')
-    return redirect('dashboard')
+        return HttpResponse(user.avatar)
+        # return redirect('dashboard')
+    # return redirect('dashboard')
+    return HttpResponse("Avatar not uploaded.")
 
 def book_ride(request):
     if request.method == "POST":
