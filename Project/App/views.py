@@ -349,6 +349,7 @@ def upload_avatar(request):
         user = User.objects.get(id=user_id)
         user.avatar = request.FILES['avatar']
         user.save()
+        print(user.avatar)
         return redirect('dashboard')
     return redirect('dashboard')
 
