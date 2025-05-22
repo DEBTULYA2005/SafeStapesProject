@@ -17,7 +17,7 @@ class Member(models.Model):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=100)
     # photo = models.ImageField(upload_to='member_photos/', default='static/assets/images/no_user.jpg')
-    photo = models.ImageField(upload_to='member_photos/', blank=True, null=True)
+    photo = CloudinaryField('member_photos/', blank=True, null=True)
     phone = models.CharField(max_length=15)
     password = models.CharField(max_length=128)
 
@@ -33,7 +33,7 @@ class Admin(models.Model):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=255)
     # photo = models.ImageField(upload_to='admin_photos/', default='static/assets/images/no_user.jpg')
-    photo = models.ImageField(upload_to='admin_photos/', blank=True, null=True)
+    photo = CloudinaryField('admin_photos/', blank=True, null=True)
     password = models.CharField(max_length=128)
 
     def __str__(self):
