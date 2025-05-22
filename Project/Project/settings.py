@@ -64,7 +64,6 @@ INSTALLED_APPS = [
 
     'cloudinary',
     'cloudinary_storage',
-    'django.contrib.staticfiles',
 ]
 
 ASGI_APPLICATION = 'Project.asgi.application'
