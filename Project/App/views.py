@@ -114,7 +114,7 @@ def user_signUp(request):
             password=password  # You should hash this in production
         )
 
-        HttpResponse("User created successfully.")
+        return HttpResponse("User created successfully.")
 
         # Log user creation in Activity model 
         Activity.objects.create(
