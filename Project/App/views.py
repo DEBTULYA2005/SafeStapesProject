@@ -86,7 +86,7 @@ def user_signIn(request):
 
 @csrf_protect
 def user_signUp(request):
-    return HttpResponse("User sign up")
+    
     if request.method == "POST":
         email = request.POST.get("Email")
         full_name = request.POST.get("Fullname")
@@ -94,6 +94,7 @@ def user_signUp(request):
         password = request.POST.get("Password")
         re_password = request.POST.get("RePassword")
 
+        return HttpResponse("User sign up")
         print(email, full_name, phone, password, re_password)
 
         if password != re_password:
