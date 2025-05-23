@@ -133,8 +133,8 @@ def user_signUp(request):
             return render(request, "user_signUp.html")
         except Exception as e:
             return page_not_found(request, exception=e, template_name='404.html')
-    except Exception as e:
-        return page_not_found(request, exception=e, template_name='404.html')
+    except Exception as e2:
+        return page_not_found(request, exception=e2, template_name='404.html')
 
 def user_Main(request):
     user_id = request.session.get('user_id')
