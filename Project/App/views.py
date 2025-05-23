@@ -112,8 +112,7 @@ def user_signUp(request):
                 email=email,
                 full_name=full_name,
                 phone=phone,
-                password=password,
-                avatar=None
+                password=password
             )
             user.save()
 
