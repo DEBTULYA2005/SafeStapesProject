@@ -133,9 +133,11 @@ def user_signUp(request):
         try:
             return render(request, "user_signUp.html")
         except Exception as e:
-            return page_not_found(request, exception=e, template_name='404.html')
+            print("EXCEPTION DURING SIGNUP:", str(e))  # <==== See it in logs
+            return HttpResponse(f"Exception occurred: {str(e)}", status=500)
     except Exception as e2:
-        return page_not_found(request, exception=e2, template_name='404.html')
+        print("EXCEPTION DURING SIGNUP:", str(e2))  # <==== See it in logs
+        return HttpResponse(f"Exception occurred: {str(e2)}", status=500)
 
 def user_Main(request):
     user_id = request.session.get('user_id')
