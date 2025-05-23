@@ -106,15 +106,16 @@ def user_signUp(request):
             return HttpResponse("Email already registered.")
             return redirect("user_signUp")
 
-        # Optionally hash password here
+        
         user = User.objects.create(
             email=email,
             full_name=full_name,
             phone=phone,
-            password=password  # You should hash this in production
+            password=password,
+            avatar=None
         )
 
-        return HttpResponse("User created successfully.")
+        # return HttpResponse("User created successfully.")
 
         # Log user creation in Activity model 
         Activity.objects.create(
