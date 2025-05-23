@@ -95,10 +95,12 @@ def user_signUp(request):
 
         if password != re_password:
             messages.error(request, "Passwords do not match.")
+            print("Passwords do not match.")
             return redirect("user_signUp")
 
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email already registered.")
+            print("Email already registered.")
             return redirect("user_signUp")
 
         # Optionally hash password here
