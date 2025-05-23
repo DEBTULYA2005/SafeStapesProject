@@ -8,9 +8,9 @@ urlpatterns = [
     path('run_migrations/', views.run_migrations, name='run_migrations'),
 
     # /auth/google/
-    path('google/', views.google_auth, name='google-auth'),  
+    path('auth/google/', views.google_auth, name='google-auth'),  
     # /auth/google/callback/        
-    path('google/callback/', views.google_callback, name='google-callback'),  
+    path('auth/google/callback/', views.google_callback, name='google-callback'),  
 
     path('logout_user', views.logout_user, name='logout_user'),
     path('logout_member', views.logout_member, name='logout_member'),
