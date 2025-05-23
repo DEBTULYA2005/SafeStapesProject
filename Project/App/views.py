@@ -93,14 +93,16 @@ def user_signUp(request):
         password = request.POST.get("Password")
         re_password = request.POST.get("RePassword")
 
+        print(email, full_name, phone, password, re_password)
+
         if password != re_password:
             messages.error(request, "Passwords do not match.")
-            print("Passwords do not match.")
+            HttpResponse("Passwords do not match.")
             return redirect("user_signUp")
 
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email already registered.")
-            print("Email already registered.")
+            HttpResponse("Email already registered.")
             return redirect("user_signUp")
 
         # Optionally hash password here
@@ -111,7 +113,7 @@ def user_signUp(request):
             password=password  # You should hash this in production
         )
 
-        # Log user creation in Activity model
+        # Log user creation in Activity model 
         Activity.objects.create(
             user=user,
             action='user_created',
