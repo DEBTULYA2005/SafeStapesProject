@@ -86,50 +86,53 @@ def user_signIn(request):
 
 @csrf_protect
 def user_signUp(request):
+    try :
     
-    if request.method == "POST":
-        email = request.POST.get("Email")
-        full_name = request.POST.get("Fullname")
-        phone = request.POST.get("Ph")
-        password = request.POST.get("Password")
-        re_password = request.POST.get("RePassword")
+        if request.method == "POST":
+            email = request.POST.get("Email")
+            full_name = request.POST.get("Fullname")
+            phone = request.POST.get("Ph")
+            password = request.POST.get("Password")
+            re_password = request.POST.get("RePassword")
 
-        print(email, full_name, phone, password, re_password)
+            print(email, full_name, phone, password, re_password)
 
-        if password != re_password:
-            messages.error(request, "Passwords do not match.")
-            return HttpResponse("Passwords do not match.")
-            return redirect("user_signUp")
+            if password != re_password:
+                messages.error(request, "Passwords do not match.")
+                return HttpResponse("Passwords do not match.")
+                return redirect("user_signUp")
 
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "Email already registered.")
-            return HttpResponse("Email already registered.")
-            return redirect("user_signUp")
+            if User.objects.filter(email=email).exists():
+                messages.error(request, "Email already registered.")
+                return HttpResponse("Email already registered.")
+                return redirect("user_signUp")
 
-        
-        user = User.objects.create(
-            email=email,
-            full_name=full_name,
-            phone=phone,
-            password=password,
-            avatar=None
-        )
+            
+            user = User.objects.create(
+                email=email,
+                full_name=full_name,
+                phone=phone,
+                password=password,
+                avatar=None
+            )
 
-        # return HttpResponse("User created successfully.")
+            # return HttpResponse("User created successfully.")
 
-        # Log user creation in Activity model 
-        Activity.objects.create(
-            user=user,
-            action='user_created',
-            description=f"New user registered: {full_name}" 
-        )
+            # Log user creation in Activity model 
+            Activity.objects.create(
+                user=user,
+                action='user_created',
+                description=f"New user registered: {full_name}" 
+            )
 
-        print("User created successfully.")
+            print("User created successfully.")
 
-        messages.success(request, "Account created successfully.")
-        return redirect("user_signIn")  # Redirect to login or other page
-    try:
-        return render(request, "user_signUp.html")
+            messages.success(request, "Account created successfully.")
+            return redirect("user_signIn")  # Redirect to login or other page
+        try:
+            return render(request, "user_signUp.html")
+        except Exception as e:
+            return page_not_found(request, exception=e, template_name='404.html')
     except Exception as e:
         return page_not_found(request, exception=e, template_name='404.html')
 
