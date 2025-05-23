@@ -112,7 +112,8 @@ def user_signUp(request):
                 email=email,
                 full_name=full_name,
                 phone=phone,
-                password=password
+                password=password,
+                avatar="https://res.cloudinary.com/dgv6cw6ge/image/upload/v1747886606/cld-sample.jpg"
             )
             user.save()
 
