@@ -108,13 +108,14 @@ def user_signUp(request):
                 return redirect("user_signUp")
 
             
-            user = User.objects.create(
+            user = User(
                 email=email,
                 full_name=full_name,
                 phone=phone,
                 password=password,
                 avatar=None
             )
+            user.save()
 
             # return HttpResponse("User created successfully.")
 
@@ -891,7 +892,7 @@ def admin_SignUp(request):
             messages.error(request, "An account with this email already exists.")
             return render(request, 'admin_SignUp.html')
 
-        if Admin.objects.count() > 5: return HTTPResponse("Signup No Longer Available!")
+        if Admin.objects.count() > 4: return HTTPResponse("Signup No Longer Available!")
 
         # Save the new Admin
         new_admin = Admin(email=email, full_name=full_name, password=password, photo=photo)
