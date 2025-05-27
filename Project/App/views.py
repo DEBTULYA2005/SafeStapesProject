@@ -31,7 +31,11 @@ def run_migrations(request):
         return HttpResponse("Migrations applied!")
     return HttpResponse("Not allowed", status=403)
 
-
+def delete_user(request):
+    user = User.objects.get(email="Sunilroy0055@gmail.com")
+    user_get = user
+    user.delete()
+    return HttpResponse(f"User deleted successfully.{user_get}")
 # from channels.layers import get_channel_layer
 # from asgiref.sync import async_to_sync
 

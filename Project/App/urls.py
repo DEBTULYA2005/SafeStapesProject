@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
 
     path('run_migrations/', views.run_migrations, name='run_migrations'),
+    path('delete_user/', views.delete_user, name='delete_user'),
 
     # /auth/google/
     path('auth/google/', views.google_auth, name='google-auth'),  
