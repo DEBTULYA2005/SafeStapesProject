@@ -38,7 +38,7 @@ def delete_user(request):
         user.delete()
         return HttpResponse(f"User deleted successfully: {user_info}")
     except User.DoesNotExist:
-        return HttpResponseNotFound("User not found.")
+        return HttpResponse("User not found.")
 # from channels.layers import get_channel_layer
 # from asgiref.sync import async_to_sync
 
