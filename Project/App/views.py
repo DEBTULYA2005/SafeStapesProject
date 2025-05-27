@@ -32,10 +32,13 @@ def run_migrations(request):
     return HttpResponse("Not allowed", status=403)
 
 def delete_user(request):
-    user = User.objects.get(email="Sunilroy0055@gmail.com")
-    user_get = f"User deleted successfully.{user}"
-    user.delete()
-    return HttpResponse(user_get)
+    try:
+        user = User.objects.get(email="Sunilroy0055@gmail.com")
+        user_info = f"{user.username} ({user.email})"
+        user.delete()
+        return HttpResponse(f"User deleted successfully: {user_info}")
+    except User.DoesNotExist:
+        return HttpResponseNotFound("User not found.")
 # from channels.layers import get_channel_layer
 # from asgiref.sync import async_to_sync
 
