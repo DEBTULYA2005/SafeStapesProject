@@ -17,13 +17,16 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
 from django.core.files.storage import FileSystemStorage
-
+from django.urls import reverse
 from django.views.defaults import page_not_found
 
 from django.core.management import call_command
 from django.http import HttpResponse
 import os
 
+def check_redirect_url(request):
+    url = reverse('social:complete', args=['google-oauth2'])
+    return HttpResponse(f"Redirect URI: {url}")
 
 def run_migrations(request):
     if os.environ.get("RENDER") == "true":  # Optional safety check

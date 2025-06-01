@@ -7,6 +7,7 @@ urlpatterns = [
 
     path('run_migrations/', views.run_migrations, name='run_migrations'),
     path('delete_user/', views.delete_user, name='delete_user'),
+    path('check-uri/', views.check_redirect_url, name='check-uri'),
 
     # /auth/google/
     path('auth/google/', views.google_auth, name='google-auth'),  
