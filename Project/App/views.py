@@ -791,14 +791,23 @@ def verify_ride_otp(request, ride_id):
 
 def google_auth(request):
     # Step 1: Redirect to Google's OAuth screen
+    # auth_url = (
+    #     f"https://accounts.google.com/o/oauth2/auth?"
+    #     f"client_id={settings.GOOGLE_CLIENT_ID}&"
+    #     f"redirect_uri={settings.GOOGLE_REDIRECT_URI}&"
+    #     f"scope=email%20profile&"  # %20 for space encoding
+    #     f"response_type=code"
+    # )
     auth_url = (
-        f"https://accounts.google.com/o/oauth2/auth?"
-        f"client_id={settings.GOOGLE_CLIENT_ID}&"
-        f"redirect_uri={settings.GOOGLE_REDIRECT_URI}&"
-        f"scope=email%20profile&"  # %20 for space encoding
-        f"response_type=code"
+    f"https://accounts.google.com/o/oauth2/v2/auth?"
+    f"client_id={settings.GOOGLE_CLIENT_ID}&"
+    f"redirect_uri={settings.GOOGLE_REDIRECT_URI}&"
+    f"scope=openid%20email%20profile&"
+    f"response_type=code&"
+    f"access_type=offline&"
+    f"prompt=consent"
     )
-    print("Auth URL:", auth_url)
+
     return redirect(auth_url)
 
 def google_callback(request):
