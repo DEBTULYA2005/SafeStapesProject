@@ -798,6 +798,7 @@ def google_auth(request):
         f"scope=email%20profile&"  # %20 for space encoding
         f"response_type=code"
     )
+    print("Auth URL:", auth_url)
     return redirect(auth_url)
 
 def google_callback(request):
